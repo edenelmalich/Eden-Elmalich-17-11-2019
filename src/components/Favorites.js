@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -20,14 +20,31 @@ const Favorites = ({
   setAlert,
   Fail
 }) => {
-  useEffect(() => {
-    let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    SetFavorites(...FavoritesData, Favorites);
-    getWeather(Favorites);
-  }, []);
+  //useRef
+  const didMount = useRef(false);
 
   // useState
   const [FavoritesData, SetFavorites] = useState([]);
+  //effects
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      SetFavorites(Favorites);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getWeather = Favorites => {
+      if (Favorites.length > 0) {
+        for (let i = 0; i < Favorites.length; i++) {
+          getCurrent(Favorites[i].LocalizedName);
+        }
+      }
+    };
+    getWeather(FavoritesData);
+  }, [FavoritesData, getCurrent]);
+
   // Function that remove city from the list
   const RemoveCity = key => {
     if (FavoritesData.length === 1) {
@@ -40,17 +57,10 @@ const Favorites = ({
       setAlert('The city was deleted from the list', 'danger');
     }
   };
-  const getWeather = Favorites => {
-    if (Favorites.length > 0) {
-      Favorites.map(city => {
-        getCurrent(city.LocalizedName);
-      });
-    }
-  };
+
   if (Fail) {
     setAlert('Server Error', 'danger');
   }
-  console.log(CurrentArray);
 
   return (
     <div className='Favorites'>
@@ -60,8 +70,8 @@ const Favorites = ({
           <Alert />
           <div className='card-att'>
             {FavoritesData.length > 0
-              ? FavoritesData.map(city => (
-                  <div>
+              ? FavoritesData.map((city, i) => (
+                  <div key={i}>
                     <Card style={{ width: '18rem' }}>
                       <Link
                         to='/'
@@ -70,49 +80,53 @@ const Favorites = ({
                         <Card.Header>
                           {city.LocalizedName}, {city.Country.ID}
                         </Card.Header>
-
                         <Card.Body>
                           <Card.Text>
-                            <div>
-                              {CurrentArray.map(data => (
-                                <div>
-                                  {data.WeatherIcon < 10 ? (
-                                    <img
-                                      className='icon-weather'
-                                      src={`https://developer.accuweather.com/sites/default/files/0${data.WeatherIcon}-s.png`}
-                                      alt={data.WeatherText}
-                                    />
-                                  ) : (
-                                    <img
-                                      className='icon-weather'
-                                      src={`https://developer.accuweather.com/sites/default/files/${data.WeatherIcon}-s.png`}
-                                      alt={data.WeatherText}
-                                    />
-                                  )}
+                            <span>
+                              {CurrentArray.map((data, index) => (
+                                <span key={index}>
+                                  {index === i ? (
+                                    <span>
+                                      {data.WeatherIcon < 10 ? (
+                                        <img
+                                          className='icon-weather'
+                                          src={`https://developer.accuweather.com/sites/default/files/0${data.WeatherIcon}-s.png`}
+                                          alt={data.WeatherText}
+                                        />
+                                      ) : (
+                                        <img
+                                          className='icon-weather'
+                                          src={`https://developer.accuweather.com/sites/default/files/${data.WeatherIcon}-s.png`}
+                                          alt={data.WeatherText}
+                                        />
+                                      )}
 
-                                  <div className='WeatherText'>
-                                    {moment(
-                                      data.LocalObservationDateTime
-                                    ).format('dddd')}
-                                    ,
-                                    {data.IsDayTime ? (
-                                      <span className='WeatherText'>Day</span>
-                                    ) : (
                                       <span className='WeatherText'>
-                                        {' '}
-                                        Night
+                                        {moment(
+                                          data.LocalObservationDateTime
+                                        ).format('dddd')}
+                                        ,
+                                        {data.IsDayTime ? (
+                                          <span className='WeatherText'>
+                                            Day
+                                          </span>
+                                        ) : (
+                                          <span className='WeatherText'>
+                                            Night
+                                          </span>
+                                        )}
                                       </span>
-                                    )}
-                                  </div>
-                                  <div className='WeatherText'>
-                                    {data.WeatherText}
-                                  </div>
-                                  <div className='Temperature'>
-                                    {data.Temperature.Metric.Value}°
-                                  </div>
-                                </div>
+                                      <span className='WeatherText'>
+                                        {data.WeatherText}
+                                      </span>
+                                      <span className='Temperature'>
+                                        {data.Temperature.Metric.Value}°
+                                      </span>
+                                    </span>
+                                  ) : null}
+                                </span>
                               ))}
-                            </div>
+                            </span>
                           </Card.Text>
                         </Card.Body>
                       </Link>

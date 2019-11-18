@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Form, Button, FormControl, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,38 +22,46 @@ const Home = ({
   setAlert,
   Fail
 }) => {
-  useEffect(() => {
-    getDefaultDetails(City);
-    let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    SetFavorites(...FavoritesData, Favorites);
-  }, []);
+  const didMount = useRef(false);
+
   const [FavoritesData, SetFavorites] = useState([]);
   const [getDetails, setDetails] = useState({
     cityName: ''
   });
+
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      SetFavorites(Favorites);
+      getDefaultDetails(City);
+    }
+  }, [getDefaultDetails, City]);
+
   const onChange = e =>
     setDetails({ ...getDetails, [e.target.name]: e.target.value });
+
   const onSubmit = e => {
     e.preventDefault();
     getDefaultDetails(cityName);
   };
+
   const Save = e => {
     e.preventDefault();
     let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (!Favorites.length > 0) {
       Favorites.push(getDefaultWeather);
-      setAlert('success', 'success');
+      setAlert('The city was successfully added to the list', 'success');
     } else {
       for (var i = 0; i < Favorites.length; i++) {
         if (Favorites[i].Key === getDefaultWeather.Key) {
-          return setAlert('Exist', 'danger');
+          return setAlert('The city is on the list', 'danger');
         }
       }
       Favorites.push(getDefaultWeather);
     }
-    setAlert('success', 'success');
+    setAlert('The city was successfully added to the list', 'success');
     localStorage.setItem('favorites', JSON.stringify(Favorites));
-    console.log(Favorites);
   };
   if (Fail) {
     setAlert('Server Error', 'danger');
@@ -88,8 +96,8 @@ const Home = ({
             style={{ width: '100%' }}
           >
             <Card.Header>
-              {FavoritesData.map(city => (
-                <span>
+              {FavoritesData.map((city, index) => (
+                <span key={index}>
                   {city.Key === getDefaultWeather.Key ? (
                     <FontAwesomeIcon id='Favorites-icon' icon={faHeart} />
                   ) : null}
@@ -109,7 +117,7 @@ const Home = ({
             </Card.Title>
             <Card.Text>
               {currentWeather.map(data => (
-                <div key='1'>
+                <span key='1'>
                   {data.WeatherIcon < 10 ? (
                     <img
                       className='icon-weather'
@@ -124,25 +132,25 @@ const Home = ({
                     />
                   )}
 
-                  <div className='WeatherText'>
+                  <span className='WeatherText'>
                     {moment(data.LocalObservationDateTime).format('dddd')},
                     {data.IsDayTime ? (
                       <span className='WeatherText'>Day</span>
                     ) : (
                       <span className='WeatherText'> Night</span>
                     )}
-                  </div>
-                  <div className='WeatherText'>{data.WeatherText}</div>
-                  <div className='Temperature'>
+                  </span>
+                  <span className='WeatherText'>{data.WeatherText}</span>
+                  <span className='Temperature'>
                     {data.Temperature.Metric.Value}°
-                  </div>
-                </div>
+                  </span>
+                </span>
               ))}
             </Card.Text>
 
             <Card.Body>
-              {dayDaily.map(data => (
-                <div>
+              {dayDaily.map((data, index) => (
+                <div key={index}>
                   <div className='daysCards'>
                     <Card bg='light' text='white' id='daysCards-card-size'>
                       <Card.Header>
@@ -186,12 +194,12 @@ const Home = ({
                       <div className='text-icon '>{data.Day.IconPhrase}</div>
                       <Card.Body>
                         <Card.Text>
-                          <div className='text-temp'>
+                          <span className='text-temp'>
                             Minimum {data.Temperature.Minimum.Value}F
-                          </div>
-                          <div className='text-temp'>
+                          </span>
+                          <span className='text-temp'>
                             Maximum {data.Temperature.Maximum.Value}F
-                          </div>
+                          </span>
                         </Card.Text>
                       </Card.Body>
                     </Card>

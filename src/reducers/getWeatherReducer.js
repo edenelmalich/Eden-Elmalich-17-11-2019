@@ -13,7 +13,7 @@ const initialState = {
   DayTime: null,
   City: 'tel aviv',
   Fail: false,
-  CurrentArray: []
+  weatherResponses: []
 };
 const getWeatherReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -27,17 +27,16 @@ const getWeatherReducer = (state = initialState, action) => {
       return {
         ...state,
         currentWeather: payload,
-        DayTime: payload[0].IsDayTime,
-        Success: true
+        DayTime: payload[0].IsDayTime
       };
     case DAY_DAILY:
-      return { ...state, dayDaily: payload, Success: true };
+      return { ...state, dayDaily: payload };
     case CITY_NAME:
       return { ...state, City: payload };
     case SET_CURRENT:
       return {
         ...state,
-        CurrentArray: [...state.CurrentArray, payload]
+        weatherResponses: [...state.weatherResponses, payload]
       };
     case FAIL:
       return { ...state, Fail: true };

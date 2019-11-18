@@ -52,6 +52,8 @@ const Home = ({
     if (!Favorites.length > 0) {
       Favorites.push(getDefaultWeather);
       setAlert('The city was successfully added to the list', 'success');
+      localStorage.setItem('favorites', JSON.stringify(Favorites));
+      return true;
     } else {
       for (var i = 0; i < Favorites.length; i++) {
         if (Favorites[i].Key === getDefaultWeather.Key) {
@@ -134,11 +136,7 @@ const Home = ({
 
                   <span className='WeatherText'>
                     {moment(data.LocalObservationDateTime).format('dddd')},
-                    {data.IsDayTime ? (
-                      <span className='WeatherText'>Day</span>
-                    ) : (
-                      <span className='WeatherText'> Night</span>
-                    )}
+                    {data.IsDayTime ? <span>Day</span> : <span> Night</span>}
                   </span>
                   <span className='WeatherText'>{data.WeatherText}</span>
                   <span className='Temperature'>

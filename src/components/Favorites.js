@@ -14,7 +14,7 @@ import { setAlert } from '../actions/alertAction';
 
 // Favorites component
 const Favorites = ({
-  CurrentArray,
+  weatherResponses,
   getCurrent,
   setCityName,
   setAlert,
@@ -47,15 +47,10 @@ const Favorites = ({
 
   // Function that remove city from the list
   const RemoveCity = key => {
-    if (FavoritesData.length === 1) {
-      SetFavorites(FavoritesData.filter(city => city.LocalizedName !== key));
-      localStorage.removeItem('favorites');
-      setAlert('The city was deleted from the list', 'danger');
-    } else {
-      SetFavorites(FavoritesData.filter(city => city.LocalizedName !== key));
-      localStorage.setItem('favorites', JSON.stringify(FavoritesData));
-      setAlert('The city was deleted from the list', 'danger');
-    }
+    let getFavorites = FavoritesData.filter(city => city.Key !== key);
+    localStorage.setItem('favorites', JSON.stringify(getFavorites));
+    SetFavorites(getFavorites);
+    setAlert('The city was deleted from the list', 'danger');
   };
 
   if (Fail) {
@@ -83,7 +78,7 @@ const Favorites = ({
                         <Card.Body>
                           <Card.Text>
                             <span>
-                              {CurrentArray.map((data, index) => (
+                              {weatherResponses.map((data, index) => (
                                 <span key={index}>
                                   {index === i ? (
                                     <span>
@@ -107,13 +102,9 @@ const Favorites = ({
                                         ).format('dddd')}
                                         ,
                                         {data.IsDayTime ? (
-                                          <span className='WeatherText'>
-                                            Day
-                                          </span>
+                                          <span>Day</span>
                                         ) : (
-                                          <span className='WeatherText'>
-                                            Night
-                                          </span>
+                                          <span>Night</span>
                                         )}
                                       </span>
                                       <span className='WeatherText'>
@@ -131,7 +122,7 @@ const Favorites = ({
                         </Card.Body>
                       </Link>
                       <Button
-                        onClick={() => RemoveCity(city.LocalizedName)}
+                        onClick={() => RemoveCity(city.Key)}
                         variant='outline-success'
                       >
                         Remove
@@ -149,11 +140,11 @@ const Favorites = ({
 
 Favorites.propType = {
   getCurrent: PropTypes.func.isRequired,
-  CurrentArray: PropTypes.array,
+  weatherResponses: PropTypes.array,
   Fail: PropTypes.bool
 };
 const mapStateToProps = state => ({
-  CurrentArray: state.getWeatherReducer.CurrentArray,
+  weatherResponses: state.getWeatherReducer.weatherResponses,
   Fail: state.getWeatherReducer.Fail
 });
 export default connect(mapStateToProps, {

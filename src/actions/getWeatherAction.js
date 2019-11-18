@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 
 export const getDefaultDetails = cityName => async dispatch => {
-  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
+  const apiKey = 'fBumZD2mDA7VWbM0GyrRD5J16mSBbWrh';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
@@ -40,7 +40,7 @@ export const getDefaultDetails = cityName => async dispatch => {
   }
 };
 export const getCurrent = city => async dispatch => {
-  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
+  const apiKey = 'fBumZD2mDA7VWbM0GyrRD5J16mSBbWrh';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`

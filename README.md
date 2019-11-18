@@ -2,6 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+### View Demo
+https://weather-app-eden-elmalich.herokuapp.com/
+
 In the project directory, you can run:
 
 ### `yarn start`

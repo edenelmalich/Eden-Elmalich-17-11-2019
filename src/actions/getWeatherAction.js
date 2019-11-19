@@ -7,18 +7,21 @@ import {
   SET_CURRENT
 } from './typesActions';
 import axios from 'axios';
+import { setAlert } from './alertAction';
 
 export const getDefaultDetails = cityName => async dispatch => {
-  const apiKey = 'fBumZD2mDA7VWbM0GyrRD5J16mSBbWrh';
+  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
     );
+    if (res.data !== undefined) {
+      dispatch({
+        type: GET_DEFAULT_WEATHER,
+        payload: res.data[0]
+      });
+    }
 
-    dispatch({
-      type: GET_DEFAULT_WEATHER,
-      payload: res.data[0]
-    });
     const resData = await axios.get(
       `http://dataservice.accuweather.com/currentconditions/v1/${res.data[0].Key}?apikey=${apiKey}`
     );
@@ -37,10 +40,11 @@ export const getDefaultDetails = cityName => async dispatch => {
     dispatch({
       type: FAIL
     });
+    dispatch(setAlert('The city is not listed', 'danger'));
   }
 };
 export const getCurrent = city => async dispatch => {
-  const apiKey = 'fBumZD2mDA7VWbM0GyrRD5J16mSBbWrh';
+  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`

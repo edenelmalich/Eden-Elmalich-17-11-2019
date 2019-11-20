@@ -15,7 +15,6 @@ export const getDefaultDetails = cityName => async dispatch => {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
     );
-    console.log(res.data);
     if (res.data !== undefined) {
       dispatch({
         type: GET_DEFAULT_WEATHER,

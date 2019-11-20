@@ -83,13 +83,20 @@ a:hover {
 .form-control {
   border: 1px solid #28a745;
 }
+
 .Cities-List {
-  position: relative;
-  margin-top: 15px;
+  position: absolute;
+  margin-top: 20px;
+  z-index: 3;
+  border: 1px solid #28a745;
 }
+
 .Loading {
-  color: #f8f9fa;
+  color: #28a745;
+  margin-top: 20px;
+  text-align: center;
 }
+
 /* Home weather box attributes */
 .Home .card-title {
   margin-bottom: unset;
@@ -332,9 +339,11 @@ a:hover {
   .svg-inline--fa {
     height: none;
   }
+
   .btn {
     vertical-align: unset;
   }
+
   /* Favorites card */
   .Favorites .card {
     margin-right: unset;

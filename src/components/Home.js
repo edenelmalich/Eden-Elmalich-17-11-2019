@@ -102,8 +102,8 @@ const Home = ({
                     {suggestions.map(suggestion => {
                       const style = {
                         padding: '1.25rem',
-                        marginTop: '2px',
                         overflow: 'auto',
+                        borderBottom: '1px solid #28a745',
                         backgroundColor: suggestion.active
                           ? '#28a745'
                           : '#f8f9fa'

@@ -10,11 +10,12 @@ import axios from 'axios';
 import { setAlert } from './alertAction';
 
 export const getDefaultDetails = cityName => async dispatch => {
-  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
+  const apiKey = 'sFxM2bBpM3VtLvGEiuyCb5wNYrIQh1Wi';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
     );
+    console.log(res.data);
     if (res.data !== undefined) {
       dispatch({
         type: GET_DEFAULT_WEATHER,
@@ -44,7 +45,7 @@ export const getDefaultDetails = cityName => async dispatch => {
   }
 };
 export const getCurrent = city => async dispatch => {
-  const apiKey = 'NqPAKAodoRAPd13KdqtBB0ByB9MQrr1m';
+  const apiKey = 'sFxM2bBpM3VtLvGEiuyCb5wNYrIQh1Wi';
   try {
     const res = await axios.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`

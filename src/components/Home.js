@@ -21,8 +21,7 @@ const Home = ({
   dayDaily,
   DayTime,
   City,
-  setAlert,
-  Fail
+  setAlert
 }) => {
   const didMount = useRef(false);
 
@@ -41,11 +40,13 @@ const Home = ({
     e.preventDefault();
     getDefaultDetails(getDetails);
   };
+  // This function get the value from search menu
   const handleSelect = value => {
     let getValues = value;
     let getCityName = getValues.split(',');
     getDefaultDetails(getCityName[0]);
   };
+  // This function save the cities in the localStorage
   const Save = e => {
     e.preventDefault();
     let Favorites = JSON.parse(localStorage.getItem('favorites')) || [];

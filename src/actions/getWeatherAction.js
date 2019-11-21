@@ -8,7 +8,7 @@ import {
 } from './typesActions';
 import axios from 'axios';
 import { setAlert } from './alertAction';
-
+// this function get city and call to the api
 export const getDefaultDetails = cityName => async dispatch => {
   const apiKey = 'sFxM2bBpM3VtLvGEiuyCb5wNYrIQh1Wi';
   try {

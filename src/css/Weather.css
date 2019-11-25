@@ -64,7 +64,7 @@ a:hover {
 }
 a {
   color: #353c3f;
-  padding: 1rem 0 1rem 0;
+  padding: 1rem 0 1rem 0.2rem;
   font-size: 20px;
   text-decoration: none;
   background-color: transparent;
@@ -326,12 +326,11 @@ a.active {
 }
 
 /* Mobile attributes */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
   .Home .header {
     font-size: 28px;
     padding: 1.25rem 0 1.25rem 0;
   }
-
   .form-inline .form-control {
     width: 175px;
     margin-right: 5px;

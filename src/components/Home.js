@@ -6,7 +6,6 @@ import Alert from './layout/Alert';
 
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import MediaQuery from 'react-responsive';
 // Using google places
 import PlacesAutocomplete from 'react-places-autocomplete';
 

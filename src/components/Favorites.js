@@ -18,7 +18,8 @@ const Favorites = ({
   getCurrent,
   setCityName,
   setAlert,
-  Fail
+  Fail,
+  toggleCheck
 }) => {
   //useRef
   const didMount = useRef(false);
@@ -56,12 +57,12 @@ const Favorites = ({
   if (Fail) {
     setAlert('Server Error', 'danger');
   }
-
+  const color = toggleCheck ? 'light' : 'dark';
   return (
     <div className='Favorites'>
-      <main className='Main'>
+      <main className={`Main-${color}`}>
         <div className='container'>
-          <div className='header'> Your Favorites Cities</div>
+          <div className={`header-${color}`}> Your Favorites Cities</div>
           <Alert />
           <div className='card-att'>
             {FavoritesData.length > 0
@@ -145,7 +146,8 @@ Favorites.propType = {
 };
 const mapStateToProps = state => ({
   weatherResponses: state.getWeatherReducer.weatherResponses,
-  Fail: state.getWeatherReducer.Fail
+  Fail: state.getWeatherReducer.Fail,
+  toggleCheck: state.toggleReducer.toggleCheck
 });
 export default connect(mapStateToProps, {
   getCurrent,

@@ -14,8 +14,17 @@ body {
 
 .react-toggle-track {
   margin-right: 10px;
+  margin-left: 15px;
 }
-
+.react-toggle-thumb {
+  margin-left: 15px;
+}
+svg {
+  margin-left: 12px;
+}
+.react-toggle-track-x {
+  margin-right: 17px;
+}
 #logo-size {
   width: 200px;
 }
@@ -23,7 +32,9 @@ a:hover {
   text-decoration: none;
   background: #9e9e9e;
 }
-
+.navbar-brand {
+  padding: 0 0 0.75rem 0;
+}
 /* PagesNav attributes */
 .navbar-light .navbar-nav .nav-link {
   color: rgba(0, 0, 0, 0.5);
@@ -53,7 +64,7 @@ a:hover {
 }
 a {
   color: #353c3f;
-  padding: 1rem;
+  padding: 1rem 0 1rem 0;
   font-size: 20px;
   text-decoration: none;
   background-color: transparent;
@@ -334,6 +345,8 @@ a.active {
   #Card-height {
     height: 285px;
     border-radius: 0.75rem;
+    background: #f8f9fa;
+    border: 1px solid #28a745;
   }
 
   .Home .card-body {
